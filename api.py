@@ -1,16 +1,23 @@
 from fastapi import FastAPI
 import sqlite3
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-def get_db_connection():
-    conn = sqlite3.connect("scraping.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+# Permitir que tu app Android acceda
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/partidos")
 def obtener_partidos():
-    conn = get_db_connection()
-    partidos = conn.execute("SELECT * FROM partidos ORDER BY fecha_scraping DESC").fetchall()
+    conn = sqlite3.connect("scraping.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT equipo_local, equipo_visitante, hora, canales, urls_ipfs FROM partidos")
+    rows = cursor.fetchall()
     conn.close()
-    return [dict(row) for row in partidos]
+    return [{"local": r[0], "visitante": r[1], "hora": r[2], "canales": r[3], "urls": r[4]} for r in rows]
