@@ -1,11 +1,15 @@
-# Scraping API de Partidos de Fútbol
+# Scraper de La Liga con IPFS
 
-Este proyecto hace scraping de la web [futbolenlatv.es](https://www.futbolenlatv.es), 
-extrae los partidos del día, los guarda en SQLite y los expone en una API REST con FastAPI.
+Este proyecto hace scraping de LaLiga desde futbolenlatv.es, obtiene links de IPFS y los guarda en PostgreSQL. También expone una API REST con FastAPI.
 
-## 🚀 Cómo usar en local
+## Setup local
 
-1. Clonar el repo:
-   ```bash
-   git clone https://github.com/tuusuario/scraping-api.git
-   cd scraping-api
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+
+pip install -r requirements.txt
+export DATABASE_URL="postgres://user:pass@host:port/dbname"
+python scraper.py
+uvicorn app:app --reload

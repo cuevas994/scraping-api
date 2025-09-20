@@ -1,6 +1,5 @@
-beautifulsoup4==4.12.2
-requests==2.32.0
-fastapi==0.111.1
-uvicorn[standard]==0.23.2
-schedule==1.2.0
-python-multipart==0.0.6
+requests
+beautifulsoup4
+psycopg2-binary
+fastapi
+uvicorn
